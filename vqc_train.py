@@ -30,3 +30,19 @@ for i in range(50):
         print(f"Step {i}, Loss: {loss(weights)}")
 
 print("Final weights:", weights)
+
+# Run circuit once to generate tape
+_ = circuit(weights, X[0])
+
+tape = circuit._tape  # internal tape
+
+print("\nCircuit operations:")
+ops = tape.operations
+print(ops)
+
+print("Total gates:", len(ops))
+
+cnot_count = sum(1 for op in ops if op.name == "CNOT")
+print("CNOT gates:", cnot_count)
+
+print("Circuit depth:", tape.graph._depth)
